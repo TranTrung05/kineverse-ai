@@ -1,0 +1,86 @@
+{
+  "camera": {
+    "index": 0,
+    "width": 640,
+    "height": 480,
+    "flip": true,
+    "preview_fps": 15,
+    "jpeg_quality": 60,
+    "model_complexity": 0,
+    "min_detection_confidence": 0.6,
+    "min_tracking_confidence": 0.5,
+    "model_path": "models/hand_landmarker.task",
+    "demo_fallback": true
+  },
+  "gesture": {
+    "min_confidence": 0.6,
+    "stable_frames": 4,
+    "lost_hand_frames": 8,
+    "pinch_on": 0.36,
+    "pinch_off": 0.5,
+    "swipe_window_s": 0.35,
+    "swipe_min_dist": 0.18,
+    "swipe_min_speed": 0.9,
+    "swipe_axis_ratio": 1.6,
+    "cooldown_s": {
+      "default": 0.6,
+      "GRAB": 0.3,
+      "MOVE_LEFT": 0.7,
+      "MOVE_RIGHT": 0.7,
+      "MOVE_UP": 0.7,
+      "MOVE_DOWN": 0.7
+    },
+    "pinch_shape_min": 0.5,
+    "pinch_shape_hold": 0.25,
+    "release_frames": 5,
+    "fist_after_pinch_frames": 8,
+    "move_interval_s": 0.05,
+    "move_deadzone": 0.004,
+    "smooth_min_cutoff": 1.5,
+    "smooth_beta": 20.0,
+    "smooth_d_cutoff": 2.0
+  },
+  "interaction": {
+    "default_source": "mouse",
+    "min_confidence": 0.5,
+    "event_ttl_s": 1.0,
+    "cooldown_s": 0.25,
+    "continuous_interval_s": 0.03,
+    "source_timeout_s": 3.0,
+    "priority": [
+      "camera",
+      "glove",
+      "mouse"
+    ],
+    "failover": true,
+    "max_in_flight": 16
+  },
+  "unity": {
+    "url": "ws://127.0.0.1:8766/interaction",
+    "ack_timeout_s": 1.0,
+    "reconnect_s": 2.0
+  },
+  "dashboard": {
+    "http_port": 8080,
+    "ws_port": 8765,
+    "open_browser": true
+  },
+  "glove": {
+    "mode": "mock",
+    "port": "COM3",
+    "baud": 115200,
+    "curl_on": 0.6,
+    "curl_off": 0.45,
+    "ema_alpha": 0.4,
+    "calibration_s": 6,
+    "imu_swipe": {
+      "axis_lr": "gz",
+      "axis_ud": "gx",
+      "threshold_dps": 180,
+      "invert_lr": false,
+      "invert_ud": false
+    }
+  },
+  "data_dir": "data",
+  "log_dir": "logs"
+}

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>KINEVERSE · AI CORE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="logo"><span class="hex">⬢</span> KINEVERSE <b>AI CORE</b></div>
+  <div class="hstat"><span id="h-sys" class="pill err">OFFLINE</span>
+    <span id="h-unity" class="pill err">UNITY ✕</span>
+    <span class="mono">FPS <b id="h-fps">--</b></span>
+    <span class="mono">E2E <b id="h-lat">--</b> ms</span>
+    <span class="mono" id="h-clock">--:--:--</span></div>
+</header>
+<div id="demo-banner" hidden>DEMO MODE · DỮ LIỆU GIẢ LẬP · KHÔNG DÙNG LÀM KẾT QUẢ NGHIÊN CỨU</div>
+<main>
+  <section class="col left">
+    <div class="panel"><h3>CONTROL SOURCE</h3>
+      <div class="srcs">
+        <button class="src" data-src="camera"><i>①</i> CAMERA AI<em id="d-camera">--</em></button>
+        <button class="src" data-src="glove"><i>②</i> SENSOR GLOVE<em id="d-glove">--</em></button>
+        <button class="src" data-src="mouse"><i>③</i> MOUSE CONTROL<em id="d-mouse">--</em></button>
+      </div>
+      <div class="row"><button id="b-cal" class="ghost">CALIBRATE GLOVE</button></div>
+      <p class="hint mono">Phím 1/2/3 đổi nguồn · R = RESET · Esc = CANCEL (khi ở MOUSE)</p>
+    </div>
+    <div class="panel"><h3>UNITY LINK</h3>
+      <div class="kv"><span>STATE</span><b id="u-state">--</b></div>
+      <div class="kv"><span>ENDPOINT</span><b id="u-ep" class="mono small">--</b></div>
+      <div class="kv"><span>LAST CMD</span><b id="u-cmd">--</b></div>
+      <div class="kv"><span>LAST RESP</span><b id="u-resp">--</b></div>
+      <div class="row"><button id="b-reconnect" class="ghost">RECONNECT</button></div>
+    </div>
+    <div class="panel"><h3>PERFORMANCE</h3>
+      <div class="kv"><span>FPS</span><b id="p-fps">--</b></div>
+      <div class="kv"><span>PROCESSING</span><b id="p-proc">--</b></div>
+      <div class="kv"><span>E2E MEAN / P95</span><b id="p-e2e">--</b></div>
+      <div class="kv"><span>DROPPED FRAMES</span><b id="p-drop">--</b></div>
+      <div class="kv"><span>CMD IN-FLIGHT / DROPPED</span><b id="p-cmd">--</b></div>
+      <div class="kv"><span>CAMERA</span><b id="p-cam">--</b></div>
+    </div>
+    <div class="panel"><h3>ARC CORE</h3><canvas id="arc" width="220" height="220"></canvas></div>
+  </section>
+
+  <section class="col center">
+    <div class="panel view"><h3>INTERACTION VIEW <em id="v-hand" class="mono">NO HAND</em></h3>
+      <canvas id="cv" width="640" height="480"></canvas></div>
+    <div class="panel scene"><h3>3D TEST SCENE <em class="mono">MOCK · không phải Unity · lệnh áp dụng ngay khi được chấp nhận</em></h3>
+      <canvas id="sc" width="960" height="600"></canvas>
+      <div class="row wrap tools">
+        <span class="mono small dim">LAYOUT</span>
+        <button class="ghost lay" data-lay="SHOWCASE">SHOWCASE</button>
+        <button class="ghost lay" data-lay="SCATTER">SCATTER</button>
+        <button class="ghost lay" data-lay="OVERLAP">OVERLAP</button>
+        <button class="ghost lay" data-lay="SIZES">SIZES</button>
+        <button class="ghost lay" data-lay="TARGETS">TARGETS</button>
+        <span class="sep"></span>
+        <button class="ghost" id="s-add">+ ADD</button>
+        <button class="ghost" id="s-del">− DELETE</button>
+        <button class="ghost" id="s-spin">SPIN</button>
+        <button class="ghost" id="s-lbl">LABELS</button>
+        <button class="ghost" id="s-mode">MODE: <b id="s-modename">MOVE</b></button>
+      </div>
+      <div class="mono small stats" id="s-stats">--</div>
+      <p class="hint mono">CAMERA · xòe tay = ACTIVATE · chỉ ngón trỏ = SELECT (đầu ngón trỏ là con trỏ) · chụm ngón cái+trỏ = GRAB; giữ chụm và
+        di chuyển tay = MOVE; mở tay = RELEASE · hai ngón (trỏ+giữa) = đổi MODE MOVE→ROTATE→SCALE (khi đang chụm, kéo tay để xoay / phóng to-nhỏ) ·
+        nắm đấm = CANCEL (vật đang kéo bị trả về chỗ cũ và tính vào CANCEL-GRAB: số này &gt; 0 nghĩa là chụm bị nhầm với nắm).
+        CHUỘT · click = SELECT · kéo = GRAB+MOVE · Ctrl+kéo = ROTATE · lăn = SCALE · chuột phải = CANCEL · M = đổi MODE · R = reset.</p>
+    </div>
+  </section>
+
+  </section>
+
+  <section class="col right">
+    <div class="panel"><h3>GESTURE RECOGNITION</h3>
+      <div class="big" id="g-now">--</div>
+      <div class="bar"><div id="g-bar"></div></div>
+      <div class="kv"><span>CONFIDENCE</span><b id="g-conf">--</b></div>
+      <div class="kv"><span>HAND STATE</span><b id="g-state">--</b></div>
+      <div class="kv"><span>COMMAND</span><b id="g-cmd">--</b></div>
+      <div class="kv"><span>EVENT</span><b id="g-evt">--</b></div>
+      <div id="g-hist" class="hist mono"></div>
+    </div>
+    <div class="panel logp"><h3>EVENT LOG</h3>
+      <div class="loghead mono"><span>TIME</span><span>SRC</span><span>CMD</span><span>CONF</span><span>RESULT</span></div>
+      <div id="log"></div></div>
+  </section>
+</main>
+<section class="panel exp"><h3>EXPERIMENT · DATA COLLECTION</h3>
+  <div class="row wrap">
+    <input id="t-name" value="TASK-01" maxlength="24">
+    <button id="b-ts" class="ghost">START TASK</button>
+    <button id="b-tok" class="ghost ok">TASK OK</button>
+    <button id="b-tfail" class="ghost bad">TASK FAIL</button>
+    <button id="b-retry" class="ghost">+ RETRY</button>
+    <button id="b-mis" class="ghost bad">MARK MISREAD</button>
+    <button id="b-export" class="primary">EXPORT CSV/JSON</button>
+    <span id="t-info" class="mono small"></span>
+  </div>
+  <table class="mono small" id="sumtbl"><thead><tr><th>GROUP</th><th>CMDS</th><th>ACK%</th><th>MEAN ms</th><th>P95 ms</th>
+    <th>MISREAD</th><th>RETRY</th><th>LOST</th><th>TASKS</th></tr></thead><tbody></tbody></table>
+</section>
+<div id="toasts"></div>
+<script src="scene3d.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

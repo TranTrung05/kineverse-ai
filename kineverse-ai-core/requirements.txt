@@ -1,0 +1,6 @@
+# Khuyến nghị Python 3.11 (64-bit) trên Windows 10/11
+mediapipe==0.10.21
+numpy<2
+opencv-contrib-python
+websockets==13.1
+pyserial==3.5
