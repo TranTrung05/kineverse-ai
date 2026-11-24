@@ -17,14 +17,14 @@ Mở thư mục dự án trong File Explorer hoặc Terminal:
 1. Chạy `setup_windows.bat` để tạo môi trường `.venv` và cài dependencies.
 2. Chạy một trong các file:
 
-| File | Chức năng |
-|---|---|
-| `run_demo.bat` | Demo giả lập, không cần camera hay găng tay |
-| `run_camera.bat` | Camera thật cùng Unity Mock; nếu không mở được camera, chương trình chuyển sang demo |
-| `run_with_glove.bat` | Găng tay ESP32 cùng Unity Mock; sửa `COM3` trong file nếu cổng Serial khác |
-| `run_mock_unity.bat` | Chạy Unity Mock riêng |
-| `run_tests.bat` | Chạy bộ kiểm thử |
-
+| File                  | Chức năng                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------ |
+| `run_demo.bat`        | Demo giả lập, không cần camera hay găng tay                                          |
+| `run_camera.bat`      | Camera thật cùng Unity Mock; nếu không mở được camera, chương trình chuyển sang demo |
+| `run_with_glove.bat`  | Găng tay ESP32 cùng Unity Mock; sửa `COM3` trong file nếu cổng Serial khác           |
+| `run_mock_unity.bat`  | Chạy Unity Mock riêng                                                                |
+| `run_tests.bat`       | Chạy bộ kiểm thử                                                                     |
+| `run_camera_test.bat` | Chạy thử công cụ bằng RUST                                                           |
 Dashboard tự mở tại [http://127.0.0.1:8080/index.html](http://127.0.0.1:8080/index.html). Dashboard dùng WebSocket tại cổng `8765`; Unity Mock mặc định dùng cổng `8766`.
 
 Có thể chạy core từ Terminal tại thư mục dự án:
