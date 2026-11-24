@@ -1,17 +1,23 @@
 # LƯU Ý:
-- Đã viết sẵn unity-bridge/KineverseBridge.cs để nối kineverse-ai với unity
-- Nhét file này tại thư mục sau trong unity: ...\NCKH_UTT\Assets\Scripts\Core\KineverseBridge.cs
-- Cách hoạt động của KineverseBridge.cs
+
+## unity-bridge/KineverseBridge.cs (Production – NCKH_UTT)
+- Nhét file tại: `...\NCKH_UTT\Assets\Scripts\Core\KineverseBridge.cs`
+- Cách hoạt động:
 
 1. Nối thẳng vào cơ chế tương tác của Lab:
-Nhận lệnh GRAB (chụm tay) → Tự động gọi playerInteractor.BeginGrab(Target) để nhấc bảng mạch / linh kiện trong phòng thí nghiệm.
-Nhận lệnh RELEASE (mở tay) → Tự động gọi playerInteractor.EndGrab() để thả vật thể xuống bàn.
-Nhận lệnh MOVE / SCALE → Điều chỉnh khoảng cách cầm vật thể xa / gần (holdDistance).
-Nhận lệnh SELECT → Bật/tắt highlight vật phẩm (HighlightManager.Instance.Toggle).
+   - Nhận lệnh GRAB (chụm tay) → Tự động gọi `playerInteractor.BeginGrab(Target)` để nhấc bảng mạch / linh kiện trong phòng thí nghiệm.
+   - Nhận lệnh RELEASE (mở tay) → Tự động gọi `playerInteractor.EndGrab()` để thả vật thể xuống bàn.
+   - Nhận lệnh MOVE / SCALE → Điều chỉnh khoảng cách cầm vật thể xa / gần (`holdDistance`).
+   - Nhận lệnh SELECT → Bật/tắt highlight vật phẩm (`HighlightManager.Instance.Toggle`).
 2. Sẵn sàng cho cả WebGL lẫn Standalone:
-Ở chế độ Editor/Desktop: Tự mở Socket nhận dữ liệu theo kineverse-interaction/1.0.
-Ở chế độ WebGL: Cung cấp sẵn hàm OnWebCommand(string json) để JavaScript từ trang web truyền thẳng dữ liệu vào Unity với độ trễ 0 ms.
+   - Ở chế độ Editor/Desktop: Tự mở Socket nhận dữ liệu theo `kineverse-interaction/1.0`.
+   - Ở chế độ WebGL: Cung cấp hàm `OnWebCommand(string json)` để JavaScript truyền thẳng vào Unity với độ trễ 0 ms.
 
+## unity-bridge/OmniSpaceWsBridge.cs (Prototype – OmniSpace)
+- Nhét file tại bất kỳ thư mục Scripts nào trong Unity project.
+- Đây là phiên bản bridge **đơn giản hơn** từ nhánh OmniSpace, dành cho team muốn tự implement game logic.
+- Cách hoạt động: Mở TCP server tại port `8766`, thực hiện WebSocket handshake thủ công, nhận message rồi chỉ **log** ra `Debug.Log` (không có game logic tích hợp sẵn).
+- **Dùng khi nào**: Khi cần một WebSocket bridge tối giản để bắt đầu nhanh, hoặc khi không dùng `PlayerInteractor`/`HighlightManager`. Nếu project đã có `PlayerInteractor`, dùng `KineverseBridge.cs` sẽ đầy đủ hơn.
 # Integration Contract – AI Core ↔ Unity  (`kineverse-interaction/1.0`)
 
 Giao thức này là **đề xuất**; chưa có API Unity nào được giả định. Unity Mock (`backend/kineverse/mock_unity.py`) cài đặt đúng đặc tả này để thành viên Unity đối chiếu.
